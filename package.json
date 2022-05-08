@@ -44,7 +44,7 @@
     "links",
     "markdown"
   ],
-  "homepage": "https://github.com/Jessica9326/BOG004-md-links#readme",
+  "homepage": "https://github.com/Jessica9326/BOG004-md-links#md-links",
   "bin": {
     "md-links": "src/cli.js"
   },
