@@ -107,7 +107,7 @@ if (help) {
         });
       })
       .catch((error) => {
-        console.log(error.message); // eslint-disable-line no-console
+        console.log(error.message, 'No se encontraron archivos md'); // eslint-disable-line no-console
       })
   );
 }

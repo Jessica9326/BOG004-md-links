@@ -47,5 +47,9 @@
   "homepage": "https://github.com/Jessica9326/BOG004-md-links#readme",
   "bin": {
     "md-links": "src/cli.js"
-  }
+  },
+    "publishConfig": {
+      "access": "public"
+    }
+  
 }
