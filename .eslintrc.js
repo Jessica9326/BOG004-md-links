@@ -11,7 +11,7 @@ module.exports = {
     ecmaVersion: 'latest',
   },
   rules: {
-
+    'no-console': 'off',
   },
   plugins: [
     'eslint-plugin-jest',

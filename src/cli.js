@@ -60,54 +60,58 @@ const instrucciones = `
   ${chalk.cyan.bold('md-links ./ruta/consultar.md --stats --validate \n')}
 `;
 if (help) {
-  console.log(chalk.whiteBright.bold(instrucciones)); // eslint-disable-line no-console
+  console.log(chalk.whiteBright.bold(instrucciones));
 } else {
   (
     mdLinks(ruta, { validate })
       .then((respuesta) => {
-        figlet('MD-LINKS', (err, dato) => {
-          console.log(chalk.cyan.bold(dato)); // eslint-disable-line no-console
-          if (stats) {
-            console.log(chalk.blue.bold('Estadísticas sobre los links encontrados:')); // eslint-disable-line no-console
-            if (validate) {
-              const tableValidate = chalkTable(chalkValidate, [{
-                total: respuesta.length,
-                unique: obtenerLinksUnicos(respuesta),
-                broken: obtenerLinksRotos(respuesta),
-              },
-              ]);
-              console.log(tableValidate); // eslint-disable-line no-console
+        if (respuesta.length <= 0) {
+          console.log(chalk.red.bold('no se encontraron links'));
+        } else {
+          figlet('MD-LINKS', (error, dato) => {
+            console.log(chalk.cyan.bold(dato));
+            if (stats) {
+              console.log(chalk.blue.bold('Estadísticas sobre los links encontrados:'));
+              if (validate) {
+                const tableValidate = chalkTable(chalkValidate, [{
+                  total: respuesta.length,
+                  unique: obtenerLinksUnicos(respuesta),
+                  broken: obtenerLinksRotos(respuesta),
+                },
+                ]);
+                console.log(tableValidate);
+              } else {
+                const tableStat = chalkTable(chalkStat, [{
+                  total: respuesta.length,
+                  unique: obtenerLinksUnicos(respuesta),
+                },
+                ]);
+                console.log(tableStat);
+              }
+            } else if (validate) {
+              const tableLinkValidate = chalkTable(chalkLinksValidate, respuesta.map((link) => ({
+                url: link.result === 'OK' ? chalk.green(link.href) : chalk.red(link.href),
+                descripcion: link.result === 'OK' ? chalk.green(link.text) : chalk.red(link.text),
+                archivo: link.result === 'OK' ? chalk.green(link.file) : chalk.red(link.file),
+                estado: link.result === 'OK' ? chalk.green(link.status) : chalk.red(link.status),
+                resultado: link.result === 'OK' ? chalk.green(link.result) : chalk.red(link.result),
+
+              })));
+              console.log(tableLinkValidate);
             } else {
-              const tableStat = chalkTable(chalkStat, [{
-                total: respuesta.length,
-                unique: obtenerLinksUnicos(respuesta),
-              },
-              ]);
-              console.log(tableStat); // eslint-disable-line no-console
+              const tableLink = chalkTable(chalkLinks, respuesta.map((link) => ({
+                url: link.href,
+                descripcion: link.text,
+                archivo: link.file,
+
+              })));
+              console.log(tableLink);
             }
-          } else if (validate) {
-            const tableLinkValidate = chalkTable(chalkLinksValidate, respuesta.map((link) => ({
-              url: link.result === 'OK' ? chalk.green(link.href) : chalk.red(link.href),
-              descripcion: link.result === 'OK' ? chalk.green(link.text) : chalk.red(link.text),
-              archivo: link.result === 'OK' ? chalk.green(link.file) : chalk.red(link.file),
-              estado: link.result === 'OK' ? chalk.green(link.status) : chalk.red(link.status),
-              resultado: link.result === 'OK' ? chalk.green(link.result) : chalk.red(link.result),
-
-            })));
-            console.log(tableLinkValidate); // eslint-disable-line no-console
-          } else {
-            const tableLink = chalkTable(chalkLinks, respuesta.map((link) => ({
-              url: link.href,
-              descripcion: link.text,
-              archivo: link.file,
-
-            })));
-            console.log(tableLink); // eslint-disable-line no-console
-          }
-        });
+          });
+        }
       })
-      .catch((error) => {
-        console.log(error.message, 'No se encontraron archivos md'); // eslint-disable-line no-console
+      .catch(() => {
+        console.log(chalk.red.bold('la ruta ingresada no existe'));
       })
   );
 }

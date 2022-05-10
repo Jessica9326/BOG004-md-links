@@ -25,7 +25,7 @@ const mdLinks = (route, opciones = { validate: false }) => new Promise((resolve,
       }
     })
     .catch((error) => {
-      reject(error.message);
+      reject(error);
     });
 });
 
