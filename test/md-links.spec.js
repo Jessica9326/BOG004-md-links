@@ -25,7 +25,7 @@ describe('mdlinks', () => {
     });
   });
   test('si la ruta no existe envia error', (done) => {
-    mdLinks('test/docs/noexiste.md', { validate: false }).catch((error) => {
+    mdLinks('test/docs/noexiste.md').catch((error) => {
       expect(error.message).toEqual("ENOENT: no such file or directory, stat 'test/docs/noexiste.md'");
       done();
     });

@@ -60,18 +60,18 @@ const instrucciones = `
   ${chalk.cyan.bold('md-links ./ruta/consultar.md --stats --validate \n')}
 `;
 if (help) {
-  console.log(chalk.whiteBright.bold(instrucciones));
+  console.log(chalk.whiteBright.bold.bgBlack(instrucciones));
 } else {
   (
     mdLinks(ruta, { validate })
       .then((respuesta) => {
         if (respuesta.length <= 0) {
-          console.log(chalk.red.bold('no se encontraron links'));
+          console.error(chalk.bgRed('¡No se encontraron link en el archivo!'));
         } else {
           figlet('MD-LINKS', (error, dato) => {
             console.log(chalk.cyan.bold(dato));
             if (stats) {
-              console.log(chalk.blue.bold('Estadísticas sobre los links encontrados:'));
+              console.log(chalk.bold.blueBright('===*** Estadísticas sobre los links encontrados ***==='));
               if (validate) {
                 const tableValidate = chalkTable(chalkValidate, [{
                   total: respuesta.length,
@@ -111,7 +111,7 @@ if (help) {
         }
       })
       .catch(() => {
-        console.log(chalk.red.bold('la ruta ingresada no existe'));
+        console.error(chalk.bgRed('¡la ruta ingresada no existe!'));
       })
   );
 }

@@ -2,6 +2,7 @@ const mocks = {
   routeDir: 'test/docs',
   routeFil: 'test/docs/ejemplo.md',
   archivoNomd: 'test/docs/ejemplo/archivonomd.js',
+  rutanoexiste: 'test/doc',
   opciones: { validate: true },
 
   links: [{
